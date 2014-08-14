@@ -28,6 +28,11 @@ void load_persisted_values(WeatherData *weather_data)
     battery_disable_display();
   }
   
+  
+  // Feels like
+   weather_data->feels_like = persist_exists(KEY_USE_FEELSLIKE) ? persist_read_bool(KEY_USE_FEELSLIKE) : DEFAULT_USE_FEELSLIKE;
+ 
+  
   // Weather Service
   if (persist_exists(KEY_WEATHER_SERVICE)) {
     persist_read_string(KEY_WEATHER_SERVICE, weather_data->service, sizeof(weather_data->service));
@@ -42,18 +47,19 @@ void load_persisted_values(WeatherData *weather_data)
     strcpy(weather_data->scale, DEFAULT_WEATHER_SCALE);
   }
 
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "PersistLoad:  d:%d b:%d s:%s u:%s", 
-      weather_data->debug, weather_data->battery, weather_data->service, weather_data->scale);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "PersistLoad:  d:%d b:%d s:%s u:%s f:%d ", 
+      weather_data->debug, weather_data->battery, weather_data->service, weather_data->scale,weather_data->feels_like);
 }
 
 void store_persisted_values(WeatherData *weather_data) 
 {
   persist_write_bool(KEY_DEBUG_MODE, weather_data->debug);
   persist_write_bool(KEY_DISPLAY_BATTERY, weather_data->battery);
+  persist_write_bool(KEY_USE_FEELSLIKE, weather_data->feels_like);
   persist_write_string(KEY_WEATHER_SERVICE, weather_data->service);
   persist_write_string(KEY_WEATHER_SCALE, weather_data->scale);
 
 
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "PersistStore:  d:%d b:%d s:%s u:%s", 
-      weather_data->debug, weather_data->battery, weather_data->service, weather_data->scale);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "PersistStore:  d:%d b:%d s:%s u:%s f:%d", 
+      weather_data->debug, weather_data->battery, weather_data->service, weather_data->scale, weather_data->feels_like);
 }

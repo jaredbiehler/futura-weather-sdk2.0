@@ -22,6 +22,7 @@
 #define KEY_H2_TIME 19
 #define KEY_H2_POP 20
 #define KEY_HOURLY_ENABLED 21
+#define KEY_FEELS_LIKE 22
 
 #define SERVICE_OPEN_WEATHER "open"
 #define SERVICE_YAHOO_WEATHER "yahoo"
@@ -48,6 +49,7 @@ typedef struct {
   char scale[2];
   bool debug;
   bool battery;
+  bool feels_like;
 
   int h1_temp;
   int h1_cond;

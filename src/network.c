@@ -32,6 +32,7 @@ static void appmsg_in_received(DictionaryIterator *received, void *context) {
   Tuple *debug_tuple       = dict_find(received, KEY_DEBUG);
   Tuple *scale_tuple       = dict_find(received, KEY_SCALE);
   Tuple *battery_tuple     = dict_find(received, KEY_BATTERY);
+  Tuple *feelslike_tuple    = dict_find(received, KEY_FEELS_LIKE);
 
   // Hourly Weather
   Tuple *h1_temp_tuple = dict_find(received, KEY_H1_TEMP);
@@ -75,9 +76,10 @@ static void appmsg_in_received(DictionaryIterator *received, void *context) {
 
     weather->debug   = (bool)debug_tuple->value->int32;
     weather->battery = (bool)battery_tuple->value->int32;
+    weather->feels_like = (bool)feelslike_tuple->value->int32;
 
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "Configuration serv:%s scale:%s debug:%i batt:%i", 
-      weather->service, weather->scale, weather->debug, weather->battery);
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "Configuration serv:%s scale:%s debug:%i batt:%i feeslike:%i", 
+      weather->service, weather->scale, weather->debug, weather->battery, weather->feels_like);
 
     if (weather->battery) {
       battery_enable_display();
@@ -192,8 +194,8 @@ static void appmsg_out_failed(DictionaryIterator *failed, AppMessageResult reaso
 
 void init_network(WeatherData *weather_data)
 {
-  int max_in  = 1200; //app_message_inbox_size_maximum();
-  int max_out = 500; //app_message_outbox_size_maximum();
+  int max_in  = 1200; // app_message_inbox_size_maximum();
+  int max_out = 500; // app_message_outbox_size_maximum();
 
   app_message_register_inbox_received(appmsg_in_received);
   app_message_register_inbox_dropped(appmsg_in_dropped);
@@ -246,7 +248,8 @@ void request_weather(WeatherData *weather_data)
   dict_write_cstring(iter, KEY_SCALE, weather_data->scale);
   dict_write_uint8(iter, KEY_DEBUG, (uint8_t)weather_data->debug);
   dict_write_uint8(iter, KEY_BATTERY, (uint8_t)weather_data->battery);
-
+  dict_write_uint8(iter, KEY_FEELS_LIKE, (uint8_t)weather_data->feels_like);
+  
   dict_write_end(iter);
 
   app_message_outbox_send();
