@@ -8,11 +8,12 @@
 #include "datetime_layer.h"
 #include "config.h"
 
-#define TIME_FRAME      (GRect(0, 3, 144, 168-6))
-#define DATE_FRAME      (GRect(1, 66, 144, 168-62))
+#define HOUR_FRAME      (GRect(0, 3, 66, 84))
+#define MIN_FRAME       (GRect(78, 3, 144, 84))
+#define DATE_FRAME      (GRect(1, 65, 144, 168))
 #define WEATHER_FRAME   (GRect(0, 98, 144, 70))
-#define DEBUG_FRAME     (GRect(0, 82, 144, 15))
-#define BATTERY_FRAME   (GRect(110, 0, 144, 8))
+#define DEBUG_FRAME     (GRect(0, 0, 144, 15))
+#define BATTERY_FRAME   (GRect(68, 20, 76, 40))
 
 /* Keep a pointer to the current weather data as a global variable */
 static WeatherData *weather_data;
@@ -90,7 +91,8 @@ static void init(void)
   init_network(weather_data);
 
   // Setup our layers
-  time_layer_create(TIME_FRAME, window);
+  min_layer_create(MIN_FRAME, window);
+  hour_layer_create(HOUR_FRAME, window);
   date_layer_create(DATE_FRAME, window);
   weather_layer_create(WEATHER_FRAME, window);
   debug_layer_create(DEBUG_FRAME, window);

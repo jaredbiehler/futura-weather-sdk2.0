@@ -7,7 +7,7 @@ var Global = {
   externalDebug:     false, // POST logs to external server - dangerous! lat lon recorded
   wuApiKey:          '7124538c72e76a05', // register for a free api key!
   hourlyIndex1:      1, // 2 Hours from now 
-  hourlyIndex2:      3, // 4 hours from now
+  hourlyIndex2:      5, // 6 hours from now
   updateInProgress:  false,
   updateWaitTimeout: 1 * 60 * 1000, // one minute in ms
   lastUpdateAttempt: new Date(),
@@ -57,6 +57,8 @@ Pebble.addEventListener("appmessage", function(data) {
       Global.config.batteryEnabled = data.payload.battery === 1;
       Global.config.feelsLikeEnabled   = data.payload.feelslike === 1;
       Global.config.weatherScale   = data.payload.scale   === 'C' ? 'C' : 'F';
+      Global.hourlyIndex1          = data.payload.h1_offset;
+      Global.hourlyIndex2          = data.payload.h2_offset;
       Global.wuApiKey              = window.localStorage.getItem('wuApiKey');
       updateWeather();
     } catch (ex) {
@@ -74,6 +76,8 @@ Pebble.addEventListener("showConfiguration", function (e) {
       'd': Global.config.debugEnabled,
       'f': Global.config.feelsLikeEnabled ? 'on' : 'off',
       'u': Global.config.weatherScale,
+      'h1': Global.hourlyIndex1,
+      'h2': Global.hourlyIndex2,
       'b': Global.config.batteryEnabled ? 'on' : 'off',
       'a': Global.wuApiKey
     }
@@ -106,6 +110,8 @@ Pebble.addEventListener("webviewclosed", function(e) {
         Global.config.weatherScale   = settings.scale   === 'C' ? 'C' : 'F';
         Global.config.debugEnabled   = settings.debug   === 'true';
         Global.config.batteryEnabled = settings.battery === 'on';
+        Global.hourlyIndex1 = settings.h1_offset;
+        Global.hourlyIndex2 = settings.h2_offset;
         Global.config.feelsLikeEnabled   = settings.feelslike === 'on';
         Global.wuApiKey              = settings.wuApiKey;
 
@@ -118,6 +124,8 @@ Pebble.addEventListener("webviewclosed", function(e) {
         var config = {
           service: Global.config.weatherService,
           scale:   Global.config.weatherScale,
+          h1_offset:   Global.hourlyIndex1,
+          h2_offset:   Global.hourlyIndex2,
           debug:   Global.config.debugEnabled   ? 1 : 0,
           battery: Global.config.batteryEnabled ? 1 : 0,
           feelslike: Global.config.feelsLikeEnabled ? 1 : 0

@@ -6,10 +6,12 @@
         "error": 5,
         "feelslike": 22,
         "h1_cond": 14,
+        "h1_offset": 23,
         "h1_pop": 16,
         "h1_temp": 13,
         "h1_time": 15,
         "h2_cond": 18,
+        "h2_offset": 24,
         "h2_pop": 20,
         "h2_temp": 17,
         "h2_time": 19,
@@ -28,31 +30,16 @@
         "location",
         "configurable"
     ],
-    "companyName": "Jared Biehler",
-    "longName": "Weather My Way",
+    "companyName": "Manojav Sridhar",
+    "longName": "Manojav Weather",
     "projectType": "native",
     "resources": {
         "media": [
             {
-                "file": "images/45x45.png",
-                "name": "ICON_45X45",
-                "type": "png"
-            },
-            {
-                "file": "images/30x30.png",
-                "name": "ICON_30X30",
-                "type": "png"
-            },
-            {
-                "file": "fonts/futura_condensed_bold-webfont.ttf",
-                "name": "FUTURA_CONDENSED_53",
-                "type": "font"
-            },
-            {
                 "characterRegex": "[0-9\u00b0 -]",
                 "file": "fonts/futura.ttf",
-                "name": "FUTURA_17",
-                "trackingAdjust": -2,
+                "name": "FUTURA_30",
+                "trackingAdjust": -3,
                 "type": "font"
             },
             {
@@ -65,14 +52,29 @@
             {
                 "characterRegex": "[0-9\u00b0 -]",
                 "file": "fonts/futura.ttf",
-                "name": "FUTURA_30",
-                "trackingAdjust": -3,
+                "name": "FUTURA_17",
+                "trackingAdjust": -2,
                 "type": "font"
+            },
+            {
+                "file": "fonts/futura_condensed_bold-webfont.ttf",
+                "name": "FUTURA_CONDENSED_53",
+                "type": "font"
+            },
+            {
+                "file": "images/30x30.png",
+                "name": "ICON_30X30",
+                "type": "png"
+            },
+            {
+                "file": "images/45x45.png",
+                "name": "ICON_45X45",
+                "type": "png"
             }
         ]
     },
-    "shortName": "Weather My Way",
-    "uuid": "24dc18f4-19a2-4800-a7b0-abec28e4d163",
+    "shortName": "Manojav Weather",
+    "uuid": "4c948634-129a-40b5-80b6-50c01d4b0c6e",
     "versionCode": 6,
     "versionLabel": "1.2",
     "watchapp": {

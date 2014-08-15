@@ -34,6 +34,9 @@ static void appmsg_in_received(DictionaryIterator *received, void *context) {
   Tuple *battery_tuple     = dict_find(received, KEY_BATTERY);
   Tuple *feelslike_tuple    = dict_find(received, KEY_FEELS_LIKE);
 
+  Tuple *h1_offset_tuple    = dict_find(received, KEY_H1_OFFSET);
+  Tuple *h2_offset_tuple    = dict_find(received, KEY_H2_OFFSET);
+
   // Hourly Weather
   Tuple *h1_temp_tuple = dict_find(received, KEY_H1_TEMP);
   Tuple *h1_cond_tuple = dict_find(received, KEY_H1_COND);
@@ -77,6 +80,8 @@ static void appmsg_in_received(DictionaryIterator *received, void *context) {
     weather->debug   = (bool)debug_tuple->value->int32;
     weather->battery = (bool)battery_tuple->value->int32;
     weather->feels_like = (bool)feelslike_tuple->value->int32;
+    weather->h1_offset = (uint32_t)h1_offset_tuple->value->int32;
+    weather->h2_offset = (uint32_t)h2_offset_tuple->value->int32;
 
     APP_LOG(APP_LOG_LEVEL_DEBUG, "Configuration serv:%s scale:%s debug:%i batt:%i feeslike:%i", 
       weather->service, weather->scale, weather->debug, weather->battery, weather->feels_like);
@@ -195,7 +200,7 @@ static void appmsg_out_failed(DictionaryIterator *failed, AppMessageResult reaso
 void init_network(WeatherData *weather_data)
 {
   int max_in  = 1200; // app_message_inbox_size_maximum();
-  int max_out = 500; // app_message_outbox_size_maximum();
+  int max_out = 800; // app_message_outbox_size_maximum();
 
   app_message_register_inbox_received(appmsg_in_received);
   app_message_register_inbox_dropped(appmsg_in_dropped);
@@ -249,6 +254,8 @@ void request_weather(WeatherData *weather_data)
   dict_write_uint8(iter, KEY_DEBUG, (uint8_t)weather_data->debug);
   dict_write_uint8(iter, KEY_BATTERY, (uint8_t)weather_data->battery);
   dict_write_uint8(iter, KEY_FEELS_LIKE, (uint8_t)weather_data->feels_like);
+  dict_write_uint32(iter, KEY_H1_OFFSET, (uint32_t)weather_data->h1_offset);
+  dict_write_uint32(iter, KEY_H2_OFFSET, (uint32_t)weather_data->h2_offset);
   
   dict_write_end(iter);
 

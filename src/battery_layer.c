@@ -99,15 +99,15 @@ void battery_timer_callback()
 void battery_layer_update(Layer *me, GContext *ctx) 
 {
   int8_t spacer  = 7; // pixels
-  int8_t start_x = spacer * MAX_DOTS;
+  int8_t start_y = spacer * MAX_DOTS;
   
   graphics_context_set_fill_color(ctx, GColorWhite);
   graphics_context_set_stroke_color(ctx, GColorWhite);
   for (int i=0; i<MAX_DOTS; i++) {
     if (i<dots) {
-      graphics_fill_circle(ctx, GPoint(start_x-(i*spacer), 4), 2);
+      graphics_fill_circle(ctx, GPoint(4,start_y-(i*spacer)), 2);
     } else {
-      graphics_draw_circle(ctx, GPoint(start_x-(i*spacer), 4), 2);
+      graphics_draw_circle(ctx, GPoint(4,start_y-(i*spacer)), 2);
     }
   } 
 }

@@ -23,6 +23,9 @@
 #define KEY_H2_POP 20
 #define KEY_HOURLY_ENABLED 21
 #define KEY_FEELS_LIKE 22
+#define KEY_H1_OFFSET  23
+#define KEY_H2_OFFSET 24
+
 
 #define SERVICE_OPEN_WEATHER "open"
 #define SERVICE_YAHOO_WEATHER "yahoo"
@@ -59,6 +62,9 @@ typedef struct {
   int h2_cond;
   int h2_time;
   int h2_pop;
+  uint32_t h1_offset;
+  uint32_t h2_offset;
+  
   bool hourly_enabled;
   time_t hourly_updated;
 
