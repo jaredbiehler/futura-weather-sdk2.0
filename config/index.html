@@ -47,6 +47,67 @@
                 <input type="text" name="text-apikey"  id="text-apikey" autocapitalize="off" autocorrect="off" autocomplete="off" value="">
             </div>
         </div>
+	
+        <div data-role="fieldcontain">
+            <label for="h1_offset">1st Hourly forecast </label>
+            <select name="h1_offset" id="h1_offset" data-role="selector" data-mini="true">
+                <option value="0">1 hour</option>
+                <option value="1">2 hours</option>
+                <option value="2">3 hours</option>
+                <option value="3">4 hours</option>
+                <option value="4">5 hours</option>
+                <option value="5">6 hours</option>
+                <option value="6">7 hours</option>
+                <option value="7">8 hours</option>
+                <option value="8">9 hours</option>
+                <option value="9">10 hours</option>
+                <option value="10">11 hours</option>
+                <option value="11">12 hours</option>
+                <option value="12">13 hours</option>
+                <option value="13">14 hours</option>
+                <option value="14">15 hours</option>
+                <option value="15">16 hours</option>
+                <option value="16">17 hours</option>
+                <option value="17">18 hours</option>
+                <option value="18">19 hours</option>
+                <option value="19">20 hours</option>
+                <option value="20">21 hours</option>
+                <option value="21">22 hours</option>
+                <option value="22">23 hours</option>
+                <option value="23">24 hours</option>
+            </select>
+        </div>
+
+        <div data-role="fieldcontain">
+            <label for="h2_offset">2nd Hourly forecast</label>
+            <select name="h2_offset" id="h2_offset" data-role="selector" data-mini="true">
+                <option value="0">1 hour</option>
+                <option value="1">2 hours</option>
+                <option value="2">3 hours</option>
+                <option value="3">4 hours</option>
+                <option value="4">5 hours</option>
+                <option value="5">6 hours</option>
+                <option value="6">7 hours</option>
+                <option value="7">8 hours</option>
+                <option value="8">9 hours</option>
+                <option value="9">10 hours</option>
+                <option value="10">11 hours</option>
+                <option value="11">12 hours</option>
+                <option value="12">13 hours</option>
+                <option value="13">14 hours</option>
+                <option value="14">15 hours</option>
+                <option value="15">16 hours</option>
+                <option value="16">17 hours</option>
+                <option value="17">18 hours</option>
+                <option value="18">19 hours</option>
+                <option value="19">20 hours</option>
+                <option value="20">21 hours</option>
+                <option value="21">22 hours</option>
+                <option value="22">23 hours</option>
+                <option value="23">24 hours</option>
+            </select>
+        </div>
+
 
         <div data-role="fieldcontain">
             <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
@@ -100,6 +161,8 @@
             'feelslike': $("select[name=flipfeelslike]").prop('selectedIndex') ? 'on' : 'off',
             'battery': $("select[name=flipbattery]").prop('selectedIndex') ? 'on' : 'off',
             'debug':   $("select[name=flipdebug]").prop('selectedIndex')   ? 'true' : 'false',
+            'h1_offset':   $("select[name=h1_offset]").prop('selectedIndex')  ,
+            'h2_offset':   $("select[name=h2_offset]").prop('selectedIndex')  ,
             'wuApiKey':$("select[name=fliphourly]").prop('selectedIndex')  ? $("#text-apikey").val() : null
         };
     }
@@ -119,11 +182,14 @@
             var val = $(this).val();
             if (val === 'on') {
                 $("#apikey").show();
-                if (!initialLoad) {
+
+	        if (!initialLoad) {
                     $("#popupCloseRight").popup("open");
                 }
             } else {
                 $("#apikey").hide();
+	
+		
             }
         });
 
@@ -152,6 +218,16 @@
         }
         flipHourly.change();
 
+	var selecth1 = $("select[name=h1_offset]");
+        var h1 = getURLParameter('h1');
+	selecth1.val(h1);
+	
+        var selecth2 = $("select[name=h2_offset]");
+        var h2 = getURLParameter('h2');
+        selecth2.val(h2);
+	
+        
+
         var flipFeelslike = $("select[name=flipfeelslike]");
         var feelslike = getURLParameter('f');
         if (feelslike === 'off') {
@@ -176,8 +252,12 @@
             flipDebug.prop('selectedIndex', 0);
         }
 
-        $("select").slider("refresh");
-
+        $("select[name=h1_offset]").selectmenu("refresh",true);
+        $("select[name=h2_offset]").selectmenu("refresh",true);
+        $("select[name=flipfeelslike]").slider("refresh");
+	$("select[name=flipdebug]").slider("refresh");
+	$("select[name=flipbattery]").slider("refresh");
+	
         $("#b-cancel").click(function() {
             console.log("Cancel");
             document.location = "pebblejs://close";
