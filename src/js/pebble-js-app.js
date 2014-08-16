@@ -294,6 +294,9 @@ var fetchWunderWeather = function(latitude, longitude) {
       var h1 = response.hourly_forecast[Global.hourlyIndex1],
           h2 = response.hourly_forecast[Global.hourlyIndex2];  
 
+    
+    console.log("h1:" + JSON.stringify(h1));
+    console.log("h2:" + JSON.stringify(h2));
         var h1_temp;
         var h2_temp;
       if (Global.config.feelsLikeEnabled) {
@@ -312,7 +315,7 @@ var fetchWunderWeather = function(latitude, longitude) {
         h1_cond: parseInt(h1.fctcode), 
         h1_time: parseInt(h1.FCTTIME.epoch),
         h1_pop:  parseInt(h1.pop),
-        h2_temp: h1_temp,
+        h2_temp: h2_temp,
         h2_cond: parseInt(h2.fctcode), 
         h2_time: parseInt(h2.FCTTIME.epoch),
         h2_pop:  parseInt(h2.pop)
