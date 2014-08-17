@@ -111,7 +111,7 @@ static void init(void)
   handle_tick(localtime(&now), MINUTE_UNIT | DAY_UNIT );
 
   // And then every minute
-  tick_timer_service_subscribe(SECOND_UNIT, handle_tick);
+  tick_timer_service_subscribe(MINUTE_UNIT, handle_tick);
 }
 
 static void deinit(void) 
