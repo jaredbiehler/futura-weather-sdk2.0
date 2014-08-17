@@ -28,8 +28,18 @@ static AppTimer *initial_jsready_timer;
 
 static void handle_tick(struct tm *tick_time, TimeUnits units_changed)
 {
+ 
   if (units_changed & MINUTE_UNIT) {
-    time_layer_update();
+    min_layer_update(units_changed);
+    if (!initial_request) {
+      debug_update_weather(weather_data);
+      weather_layer_update(weather_data);
+    }
+  }
+
+  if (units_changed & HOUR_UNIT) {
+    hour_layer_update(units_changed);
+    min_layer_update(units_changed);
     if (!initial_request) {
       debug_update_weather(weather_data);
       weather_layer_update(weather_data);
@@ -108,10 +118,10 @@ static void init(void)
 
   // Update the screen right away
   time_t now = time(NULL);
-  handle_tick(localtime(&now), MINUTE_UNIT | DAY_UNIT );
+  handle_tick(localtime(&now), MINUTE_UNIT | DAY_UNIT | HOUR_UNIT );
 
   // And then every minute
-  tick_timer_service_subscribe(SECOND_UNIT, handle_tick);
+  tick_timer_service_subscribe(MINUTE_UNIT, handle_tick);
 }
 
 static void deinit(void) 

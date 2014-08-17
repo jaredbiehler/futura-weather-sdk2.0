@@ -2,6 +2,7 @@
 #include "network.h"
 #include "datetime_layer.h"
 
+
 static TextLayer *min_layer;
 static TextLayer *hour_layer;
 static TextLayer *date_layer;
@@ -56,7 +57,7 @@ void date_layer_create(GRect frame, Window *window)
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(date_layer));
 }
 
-void time_layer_update()
+void hour_layer_update()
 {
   time_t currentTime = time(NULL);
   // Update the time - Fix to deal with 12 / 24 centering bug
@@ -77,6 +78,17 @@ void time_layer_update()
   }
 
   text_layer_set_text(hour_layer, hour_text);
+}
+
+void min_layer_update()
+{
+  time_t currentTime = time(NULL);
+  // Update the time - Fix to deal with 12 / 24 centering bug
+  struct tm *currentLocalTime = localtime(&currentTime);
+
+  strftime(   min_text, 
+              sizeof(min_text), "%M", 
+              currentLocalTime);
   text_layer_set_text(min_layer, min_text);
 }
 

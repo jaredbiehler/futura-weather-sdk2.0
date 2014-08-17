@@ -7,7 +7,8 @@ void hour_layer_create(GRect frame, Window *window);
 
 
 void date_layer_update();
-void time_layer_update();
+void hour_layer_update();
+void min_layer_update();
 
 
 void date_layer_destroy();
