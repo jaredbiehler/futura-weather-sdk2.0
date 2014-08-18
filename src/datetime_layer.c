@@ -73,7 +73,7 @@ void hour_layer_update()
 
   // Manually format the time as 12 / 24 hour, as specified
   strftime(   hour_text, 
-              sizeof(hour_text), "%H", 
+              sizeof(hour_text),  clock_is_24h_style() ? "%H" : "%I", 
               currentLocalTime);
 
     strftime(   min_text, 
@@ -81,11 +81,20 @@ void hour_layer_update()
               currentLocalTime);
 
   // Drop the first char of hour_text if needed
-  if (!clock_is_24h_style() && (hour_text[0] == '0')) {
-   memmove(hour_text, &hour_text[1], sizeof(hour_text) - 1);
-   layer_set_frame(time_layer, GRect(-7, 0, 144, 98));
-  } else
-   layer_set_frame(time_layer, GRect(6, 0, 144, 98));
+  if (!clock_is_24h_style() ) { 
+	layer_set_frame(time_layer, GRect(-10, 0, 144, 98));
+
+	if ((hour_text[0] == '0'))
+		memmove(hour_text, &hour_text[1], sizeof(hour_text) - 1);
+  	if (strcmp(hour_text,"11") == 0 ) 
+	     	layer_set_frame(time_layer, GRect(-10, 0, 144, 98));
+	if (strcmp(hour_text,"12") == 0 ) 
+	     	layer_set_frame(time_layer, GRect(-4, 0, 144, 98));
+	if (strcmp(hour_text,"1") == 0 ) 
+		layer_set_frame(time_layer, GRect(-12, 0, 144, 98));
+	  
+   }  
+ 
 
   text_layer_set_text(hour_layer, hour_text);
 }
