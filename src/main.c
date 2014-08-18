@@ -8,11 +8,12 @@
 #include "datetime_layer.h"
 #include "config.h"
 
-#define TIME_FRAME      (GRect(0, 3, 144, 168-6))
-#define DATE_FRAME      (GRect(1, 66, 144, 168-62))
+#define HOUR_FRAME      (GRect(0, 3, 66, 84))
+#define MIN_FRAME       (GRect(78, 3, 144, 84))
+#define DATE_FRAME      (GRect(1, 65, 144, 168))
 #define WEATHER_FRAME   (GRect(0, 98, 144, 70))
-#define DEBUG_FRAME     (GRect(0, 82, 144, 15))
-#define BATTERY_FRAME   (GRect(110, 0, 144, 8))
+#define DEBUG_FRAME     (GRect(0, 0, 144, 15))
+#define BATTERY_FRAME   (GRect(68, 20, 76, 40))
 
 /* Keep a pointer to the current weather data as a global variable */
 static WeatherData *weather_data;
@@ -27,8 +28,18 @@ static AppTimer *initial_jsready_timer;
 
 static void handle_tick(struct tm *tick_time, TimeUnits units_changed)
 {
+ 
   if (units_changed & MINUTE_UNIT) {
-    time_layer_update();
+    min_layer_update(units_changed);
+    if (!initial_request) {
+      debug_update_weather(weather_data);
+      weather_layer_update(weather_data);
+    }
+  }
+
+  if (units_changed & HOUR_UNIT) {
+    hour_layer_update(units_changed);
+    min_layer_update(units_changed);
     if (!initial_request) {
       debug_update_weather(weather_data);
       weather_layer_update(weather_data);
@@ -42,6 +53,8 @@ static void handle_tick(struct tm *tick_time, TimeUnits units_changed)
   /*
    * Useful for showing all icons using Yahoo, subscribe to SECOND_UNIT tick service
    *
+  
+
   weather_data->temperature = (tick_time->tm_sec + rand()%60) * (rand()%3 ? 1 : -1);
   weather_data->condition = tick_time->tm_sec;
   weather_data->updated = time(NULL);
@@ -54,7 +67,8 @@ static void handle_tick(struct tm *tick_time, TimeUnits units_changed)
   weather_data->h1_temp = (tick_time->tm_sec + rand()%60) * (rand()%3 ? 1 : -1);
   weather_data->h2_temp = (tick_time->tm_sec + rand()%60) * (rand()%3 ? 1 : -1);
   weather_layer_update(weather_data);
-  */
+*/
+
 
   // Refresh the weather info every 15 mins, targeting 18 mins after the hour (Yahoo updates around then)
   if ((units_changed & MINUTE_UNIT) && 
@@ -90,7 +104,8 @@ static void init(void)
   init_network(weather_data);
 
   // Setup our layers
-  time_layer_create(TIME_FRAME, window);
+  min_layer_create(MIN_FRAME, window);
+  hour_layer_create(HOUR_FRAME, window);
   date_layer_create(DATE_FRAME, window);
   weather_layer_create(WEATHER_FRAME, window);
   debug_layer_create(DEBUG_FRAME, window);
@@ -106,10 +121,10 @@ static void init(void)
 
   // Update the screen right away
   time_t now = time(NULL);
-  handle_tick(localtime(&now), MINUTE_UNIT | DAY_UNIT );
+  handle_tick(localtime(&now), MINUTE_UNIT | DAY_UNIT | HOUR_UNIT );
 
   // And then every minute
-  tick_timer_service_subscribe(SECOND_UNIT, handle_tick);
+  tick_timer_service_subscribe(MINUTE_UNIT, handle_tick);
 }
 
 static void deinit(void) 

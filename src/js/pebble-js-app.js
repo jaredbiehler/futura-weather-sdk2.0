@@ -1,13 +1,13 @@
 var SERVICE_OPEN_WEATHER  = "open";
 var SERVICE_YAHOO_WEATHER = "yahoo";
 var EXTERNAL_DEBUG_URL    = '';
-var CONFIGURATION_URL     = 'http://jaredbiehler.github.io/weather-my-way/config/';
+var CONFIGURATION_URL     = 'http://vajonam.github.io/weather-my-way/config/';
 
 var Global = {
   externalDebug:     false, // POST logs to external server - dangerous! lat lon recorded
-  wuApiKey:          null, // register for a free api key!
-  hourlyIndex1:      2, // 3 Hours from now 
-  hourlyIndex2:      8, // 9 hours from now
+  wuApiKey:          '7124538c72e76a05', // register for a free api key!
+  hourlyIndex1:      1, // 2 Hours from now 
+  hourlyIndex2:      5, // 6 hours from now
   updateInProgress:  false,
   updateWaitTimeout: 1 * 60 * 1000, // one minute in ms
   lastUpdateAttempt: new Date(),
@@ -17,7 +17,8 @@ var Global = {
     debugEnabled:   false,
     batteryEnabled: true,
     weatherService: SERVICE_YAHOO_WEATHER,
-    weatherScale:   'F'
+    weatherScale:   'F',
+    feelsLikeEnabled:   true
   },
 };
 
@@ -54,7 +55,10 @@ Pebble.addEventListener("appmessage", function(data) {
       Global.config.weatherService = data.payload.service === SERVICE_OPEN_WEATHER ? SERVICE_OPEN_WEATHER : SERVICE_YAHOO_WEATHER;
       Global.config.debugEnabled   = data.payload.debug   === 1;
       Global.config.batteryEnabled = data.payload.battery === 1;
+      Global.config.feelsLikeEnabled   = data.payload.feelslike === 1;
       Global.config.weatherScale   = data.payload.scale   === 'C' ? 'C' : 'F';
+      Global.hourlyIndex1          = data.payload.h1_offset;
+      Global.hourlyIndex2          = data.payload.h2_offset;
       Global.wuApiKey              = window.localStorage.getItem('wuApiKey');
       updateWeather();
     } catch (ex) {
@@ -70,7 +74,10 @@ Pebble.addEventListener("showConfiguration", function (e) {
     var options = {
       's': Global.config.weatherService,
       'd': Global.config.debugEnabled,
+      'f': Global.config.feelsLikeEnabled ? 'on' : 'off',
       'u': Global.config.weatherScale,
+      'h1': Global.hourlyIndex1,
+      'h2': Global.hourlyIndex2,
       'b': Global.config.batteryEnabled ? 'on' : 'off',
       'a': Global.wuApiKey
     }
@@ -96,12 +103,16 @@ Pebble.addEventListener("webviewclosed", function(e) {
 
         var refreshNeeded = (settings.service  !== Global.config.weatherService ||
                              settings.scale    !== Global.config.weatherScale   || 
+                             settings.feelsLike !== Global.config.feelsLikeEnabled   || 
                              settings.wuApiKey !== Global.wuApiKey);
 
         Global.config.weatherService = settings.service === SERVICE_OPEN_WEATHER ? SERVICE_OPEN_WEATHER : SERVICE_YAHOO_WEATHER;
         Global.config.weatherScale   = settings.scale   === 'C' ? 'C' : 'F';
         Global.config.debugEnabled   = settings.debug   === 'true';
         Global.config.batteryEnabled = settings.battery === 'on';
+        Global.hourlyIndex1 = settings.h1_offset;
+        Global.hourlyIndex2 = settings.h2_offset;
+        Global.config.feelsLikeEnabled   = settings.feelslike === 'on';
         Global.wuApiKey              = settings.wuApiKey;
 
         if (Global.wuApiKey !== null) {
@@ -113,8 +124,11 @@ Pebble.addEventListener("webviewclosed", function(e) {
         var config = {
           service: Global.config.weatherService,
           scale:   Global.config.weatherScale,
+          h1_offset:   Global.hourlyIndex1,
+          h2_offset:   Global.hourlyIndex2,
           debug:   Global.config.debugEnabled   ? 1 : 0,
-          battery: Global.config.batteryEnabled ? 1 : 0
+          battery: Global.config.batteryEnabled ? 1 : 0,
+          feelslike: Global.config.feelsLikeEnabled ? 1 : 0
         };
 
         Pebble.sendAppMessage(config, ack, function(ev){
@@ -211,10 +225,18 @@ var fetchYahooWeather = function(latitude, longitude) {
       if (locale === null) {
         locale = 'unknown';
       }
-
+      var temperature; 
+    
+      if (Global.config.feelsLikeEnabled) {
+          console.log('Using Feels like instead of temp');
+          temperature = parseInt(response.query.results.results[0].channel.wind.chill);
+      } else 
+          temperature = parseInt(response.query.results.results[0].channel.item.condition.temp);
+      
+        
       return {
         condition:   parseInt(response.query.results.results[0].channel.item.condition.code),
-        temperature: parseInt(response.query.results.results[0].channel.item.condition.temp),
+        temperature: temperature,
         sunrise:     Date.parse(new Date().toDateString()+" "+sunrise) / 1000,
         sunset:      Date.parse(new Date().toDateString()+" "+sunset) / 1000,
         locale:      locale,
@@ -269,15 +291,31 @@ var fetchWunderWeather = function(latitude, longitude) {
 
   options.parse = function(response) {
         
-      var h1 = response.hourly_forecast[Global.hourlyIndex1]
-        , h2 = response.hourly_forecast[Global.hourlyIndex2];  
+      var h1 = response.hourly_forecast[Global.hourlyIndex1],
+          h2 = response.hourly_forecast[Global.hourlyIndex2];  
 
+    
+    console.log("h1:" + JSON.stringify(h1));
+    console.log("h2:" + JSON.stringify(h2));
+        var h1_temp;
+        var h2_temp;
+      if (Global.config.feelsLikeEnabled) {
+            console.log('Using Feels like instead of temp');
+            h1_temp = Global.config.weatherScale === 'C' ? parseInt(h1.feelslike.metric) : parseInt(h1.feelslike.english);
+            h2_temp = Global.config.weatherScale === 'C' ? parseInt(h2.feelslike.metric) : parseInt(h2.feelslike.english);
+        } else {
+           h1_temp = Global.config.weatherScale === 'C' ? parseInt(h1.temp.metric) : parseInt(h1.temp.english);
+           h2_temp = Global.config.weatherScale === 'C' ? parseInt(h2.temp.metric) : parseInt(h2.temp.english);
+          
+        }
+    
+          
       return {
-        h1_temp: Global.config.weatherScale === 'C' ? parseInt(h1.temp.metric) : parseInt(h1.temp.english),
+        h1_temp: h1_temp,
         h1_cond: parseInt(h1.fctcode), 
         h1_time: parseInt(h1.FCTTIME.epoch),
         h1_pop:  parseInt(h1.pop),
-        h2_temp: Global.config.weatherScale === 'C' ? parseInt(h2.temp.metric) : parseInt(h2.temp.english),
+        h2_temp: h2_temp,
         h2_cond: parseInt(h2.fctcode), 
         h2_time: parseInt(h2.FCTTIME.epoch),
         h2_pop:  parseInt(h2.pop)
