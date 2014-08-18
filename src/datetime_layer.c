@@ -2,7 +2,7 @@
 #include "network.h"
 #include "datetime_layer.h"
 
-
+static Layer *time_layer;
 static TextLayer *min_layer;
 static TextLayer *hour_layer;
 static TextLayer *date_layer;
@@ -17,17 +17,25 @@ static char hour_text[] = "00";
 GFont font_date;
 GFont font_time;
 
+Layer *get_time_layer() {
+
+	return time_layer;
+}
+
 void min_layer_create(GRect frame, Window *window)
 {
-  font_time = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FUTURA_CONDENSED_53));
+  time_layer = layer_create(GRect(0,0,144,98));
+  layer_add_child(window_get_root_layer(window), time_layer);
 
+
+  font_time = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FUTURA_CONDENSED_53));
   min_layer = text_layer_create(frame);
   text_layer_set_text_color(min_layer, GColorWhite);
   text_layer_set_background_color(min_layer, GColorClear);
   text_layer_set_font(min_layer, font_time);
   text_layer_set_text_alignment(min_layer, GTextAlignmentLeft);
 
-  layer_add_child(window_get_root_layer(window), text_layer_get_layer(min_layer));
+  layer_add_child(time_layer, text_layer_get_layer(min_layer));
 }
 
 void hour_layer_create(GRect frame, Window *window)
@@ -40,7 +48,7 @@ void hour_layer_create(GRect frame, Window *window)
   text_layer_set_font(hour_layer, font_time);
   text_layer_set_text_alignment(hour_layer, GTextAlignmentRight);
 
-  layer_add_child(window_get_root_layer(window), text_layer_get_layer(hour_layer));
+  layer_add_child(time_layer, text_layer_get_layer(hour_layer));
 }
 
 
@@ -74,8 +82,10 @@ void hour_layer_update()
 
   // Drop the first char of hour_text if needed
   if (!clock_is_24h_style() && (hour_text[0] == '0')) {
-   // memmove(hour_text, &hour_text[1], sizeof(hour_text) - 1);
-  }
+   memmove(hour_text, &hour_text[1], sizeof(hour_text) - 1);
+   layer_set_frame(time_layer, GRect(-7, 0, 144, 98));
+  } else
+   layer_set_frame(time_layer, GRect(6, 0, 144, 98));
 
   text_layer_set_text(hour_layer, hour_text);
 }

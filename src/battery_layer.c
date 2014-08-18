@@ -1,5 +1,6 @@
 #include <pebble.h>
 #include "battery_layer.h"
+#include "datetime_layer.h"
 
 const uint32_t BATTERY_TIMEOUT = 2000; // 2 second animation 
 const uint8_t  MAX_DOTS = 4;
@@ -49,7 +50,7 @@ void battery_layer_create(GRect frame, Window *window)
 {
   battery_layer = layer_create(frame);
   layer_set_update_proc(battery_layer, battery_layer_update);
-  layer_add_child(window_get_root_layer(window), battery_layer);
+  layer_add_child(get_time_layer(), battery_layer);
 }
 
 void battery_enable_display() 
