@@ -1,4 +1,5 @@
 .DS_Store
 build/
 .lock-waf_darwin_build
+.lock-waf_linux2_build
 psd/

@@ -1,18 +1,20 @@
 #include <pebble.h>
 #include "battery_layer.h"
+#include "datetime_layer.h"
 
 const uint32_t BATTERY_TIMEOUT = 2000; // 2 second animation 
-const uint8_t  MAX_DOTS = 4;
+const uint8_t  MAX_DOTS = 5;
 
 static Layer *battery_layer;
 
 static AppTimer *battery_animation_timer;
 static bool is_animating = false;
 static bool is_enabled   = false;
-static int8_t dots = 4; 
+static int8_t dots = 4;
 
 static void handle_battery(BatteryChargeState charge_state) 
 {
+  uint8_t charge = charge_state.charge_percent;
   if (charge_state.is_charging || charge_state.is_plugged) {
 
     if (!is_animating) {
@@ -29,14 +31,16 @@ static void handle_battery(BatteryChargeState charge_state)
       app_timer_cancel(battery_animation_timer);
     }
     
-    uint8_t charge = charge_state.charge_percent;
-    if (charge >= 90) {
+
+    if (charge >= 85) {
       dots = MAX_DOTS;
-    } else if (charge >= 65 && charge < 90) {
+    } else if (charge >= 75 && charge <85) {
+      dots = 4;
+    } else if (charge >= 50 && charge < 75) {
       dots = 3;
-    } else if (charge >= 35 && charge < 65) {
+    } else if (charge >= 20 && charge < 50) {
       dots = 2;
-    } else {
+   } else {
       dots = 1;
     }
   }
@@ -49,7 +53,7 @@ void battery_layer_create(GRect frame, Window *window)
 {
   battery_layer = layer_create(frame);
   layer_set_update_proc(battery_layer, battery_layer_update);
-  layer_add_child(window_get_root_layer(window), battery_layer);
+  layer_add_child(get_time_layer(), battery_layer);
 }
 
 void battery_enable_display() 
@@ -98,18 +102,46 @@ void battery_timer_callback()
 
 void battery_layer_update(Layer *me, GContext *ctx) 
 {
-  int8_t spacer  = 7; // pixels
-  int8_t start_x = spacer * MAX_DOTS;
-  
-  graphics_context_set_fill_color(ctx, GColorWhite);
-  graphics_context_set_stroke_color(ctx, GColorWhite);
-  for (int i=0; i<MAX_DOTS; i++) {
-    if (i<dots) {
-      graphics_fill_circle(ctx, GPoint(start_x-(i*spacer), 4), 2);
-    } else {
-      graphics_draw_circle(ctx, GPoint(start_x-(i*spacer), 4), 2);
-    }
-  } 
+    int8_t spacer = 18; // pixels
+	int8_t start_y = 45; //only two colon like dots
+
+	graphics_context_set_fill_color(ctx, GColorWhite);
+	graphics_context_set_stroke_color(ctx, GColorWhite);
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "drawing battery %d", dots);
+	switch (dots) {
+
+	case 1:
+		graphics_draw_circle(ctx, GPoint(6, start_y - (1 * spacer)), 5);
+		graphics_draw_circle(ctx, GPoint(6, start_y - (1 * spacer)), 4);
+		graphics_draw_circle(ctx, GPoint(6, start_y - (2 * spacer)), 5);
+		graphics_draw_circle(ctx, GPoint(6, start_y - (2 * spacer)), 4);
+		break;
+	case 2:
+		graphics_draw_circle(ctx, GPoint(6, start_y - (1 * spacer)), 5);
+		graphics_draw_circle(ctx, GPoint(6, start_y - (1 * spacer)), 4);
+		graphics_fill_circle(ctx, GPoint(6, start_y - (1 * spacer)), 2);
+		graphics_draw_circle(ctx, GPoint(6, start_y - (2 * spacer)), 5);
+		graphics_draw_circle(ctx, GPoint(6, start_y - (2 * spacer)), 4);
+    break;
+	case 3:
+		graphics_fill_circle(ctx, GPoint(6, start_y - (1 * spacer)), 5);
+		graphics_draw_circle(ctx, GPoint(6, start_y - (2 * spacer)), 5);
+		graphics_draw_circle(ctx, GPoint(6, start_y - (2 * spacer)), 4);
+	break;
+	case 4:
+		graphics_fill_circle(ctx, GPoint(6, start_y - (1 * spacer)), 5);
+		graphics_fill_circle(ctx, GPoint(6, start_y - (2 * spacer)), 2);
+		graphics_draw_circle(ctx, GPoint(6, start_y - (2 * spacer)), 5);
+		graphics_draw_circle(ctx, GPoint(6, start_y - (2 * spacer)), 4);
+		break;
+	case 5:
+		graphics_fill_circle(ctx, GPoint(6, start_y - (1 * spacer)), 5);
+		graphics_fill_circle(ctx, GPoint(6, start_y - (2 * spacer)), 5);
+		break;
+
+
+	}
+
 }
 
 void battery_layer_destroy() 

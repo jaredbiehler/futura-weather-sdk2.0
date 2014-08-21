@@ -3,6 +3,9 @@
 
 #ifndef W_LAYER_H
 #define W_LAYER_H
+#define RESIZE_DATA_SIZE 240
+#define HOURLY_ICON_SCALE 66
+
 
 typedef struct {
 	Layer *loading_layer;
@@ -10,7 +13,8 @@ typedef struct {
 	TextLayer *primary_temp_layer;
 
 	GBitmap *primary_icons;
-	GBitmap *hourly_icons;
+	uint8_t *h1_resized_data;
+	uint8_t *h2_resized_data;
 
 	int primary_icon_size;
 	int hourly_icon_size;
@@ -79,5 +83,7 @@ void weather_layer_clear_temperature();
 uint8_t open_weather_icon_for_condition(int condition, bool night_time);
 uint8_t yahoo_weather_icon_for_condition(int condition, bool night_time);
 uint8_t wunder_weather_icon_for_condition(int c, bool night_time);
+void weather_layer_hide(bool hide);
+
 
 #endif

@@ -1,76 +1,233 @@
 {
-  "uuid": "24dc18f4-19a2-4800-a7b0-abec28e4d163",
-  "shortName": "Weather My Way",
-  "longName": "Weather My Way",
-  "companyName": "Jared Biehler",
-  "versionCode": 6,
-  "versionLabel": "1.1.1",
-  "capabilities": [ "configurable", "location" ],
-  "watchapp": {
-    "watchface": true
-  },
-  "appKeys": {
-    "temperature": 0,
-    "condition": 1,
-    "sunrise": 2,
-    "sunset": 3,
-    "pubdate": 4,
-    "error": 5,
-    "service": 6,
-    "locale": 7,
-    "debug": 8,
-    "js_ready": 9,
-    "scale": 10,
-    "battery": 11,
-    "tzoffset": 12,
-    "h1_temp": 13,
-    "h1_cond": 14,
-    "h1_time": 15,
-    "h1_pop": 16,
-    "h2_temp": 17,
-    "h2_cond": 18,
-    "h2_time": 19,
-    "h2_pop": 20,
-    "hourly_enabled": 21
-  },
-  "resources": {
-    "media": [
-      {
-        "type": "png",
-        "name": "ICON_45X45",
-        "file": "images/45x45.png"
-      },
-      {
-        "type": "png",
-        "name": "ICON_30X30",
-        "file": "images/30x30.png"
-      },
-      {
-        "type": "font",
-        "name": "FUTURA_CONDENSED_53",
-        "file": "fonts/futura_condensed_bold-webfont.ttf"
-      },
-      {
-        "name": "FUTURA_17",
-        "trackingAdjust": -2,
-        "characterRegex": "[0-9\u00b0 -]",
-        "file": "fonts/futura.ttf",
-        "type": "font"
-      },
-      {
-        "name": "FUTURA_18",
-        "trackingAdjust": 3,
-        "characterRegex": "[A-Za-z0-9 ]",
-        "file": "fonts/futura.ttf",
-        "type": "font"
-      },
-      {
-        "name": "FUTURA_30",
-        "trackingAdjust": -3,
-        "characterRegex": "[0-9\u00b0 -]",
-        "file": "fonts/futura.ttf",
-        "type": "font"
-      }
-    ]
-  }
+    "appKeys": {
+        "battery": 11,
+        "condition": 1,
+        "debug": 8,
+        "error": 5,
+        "feelslike": 22,
+        "h1_cond": 14,
+        "h1_offset": 23,
+        "h1_pop": 16,
+        "h1_temp": 13,
+        "h1_time": 15,
+        "h2_cond": 18,
+        "h2_offset": 24,
+        "h2_pop": 20,
+        "h2_temp": 17,
+        "h2_time": 19,
+        "hourly_enabled": 21,
+        "js_ready": 9,
+        "locale": 7,
+        "pubdate": 4,
+        "scale": 10,
+        "service": 6,
+        "sunrise": 2,
+        "sunset": 3,
+        "temperature": 0,
+        "tzoffset": 12,
+        "wind_speed":25,
+        "wind_dir":26,
+        "humidity":27,
+		"temp_high":28,
+        "temp_low":29
+    },
+    "capabilities": [
+        "location",
+        "configurable"
+    ],
+    "companyName": "Manojav Sridhar",
+    "longName": "MWeather",
+    "projectType": "native",
+    "resources": {
+        "media": [ 
+            {
+                "characterRegex": "[0-9\u00b0 -]",
+                "file": "fonts/futura.ttf",
+                "name": "FUTURA_30",
+                "trackingAdjust": -3,
+                "type": "font"
+            },
+            {
+                "characterRegex": "[A-Za-z0-9 ]",
+                "file": "fonts/futura.ttf",
+                "name": "FUTURA_18",
+                "trackingAdjust": 3,
+                "type": "font"
+            },
+            {
+                "characterRegex": "[0-9\u00b0 -:APMNWES ]",
+                "file": "fonts/futura.ttf",
+                "name": "FUTURA_17",
+                "trackingAdjust": -2,
+                "type": "font"
+            },
+            {
+                "file": "fonts/futura_condensed_bold-webfont.ttf",
+                "name": "FUTURA_CONDENSED_53",
+                "type": "font"
+            },
+		      {
+		        "type": "png",
+		        "name": "I_CLEAR_DAY",
+		        "file": "images/weather_0.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "I_FAIR_D",
+		        "file": "images/weather_1.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "I_PC_D",
+		        "file": "images/weather_2.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "I_MC_DAY",
+		        "file": "images/weather_3.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "I_CLDY_D",
+		        "file": "images/weather_4.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "I_CLEAR_N",
+		        "file": "images/weather_5.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "I_FAIR_N",
+		        "file": "images/weather_6.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "I_PC_N",
+		        "file": "images/weather_7.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "I_WIND",
+		        "file": "images/weather_8.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "I_FOG",
+		        "file": "images/weather_9.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "I_DRIZZLE",
+		        "file": "images/weather_10.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "I_RAIN",
+		        "file": "images/weather_11.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "I_RAIN_SLEET",
+		        "file": "images/weather_12.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "I_SLEET",
+		        "file": "images/weather_13.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "I_SNOW_SLEET",
+		        "file": "images/weather_14.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "I_H_SNOW",
+		        "file": "images/weather_15.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "I_SNOW",
+		        "file": "images/weather_16.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "I_R_SNOW",
+		        "file": "images/weather_17.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "I_R_SUN",
+		        "file": "images/weather_18.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "I_THUNDER_SUN",
+		        "file": "images/weather_19.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "I_THUNDER",
+		        "file": "images/weather_20.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "I_COLD",
+		        "file": "images/weather_21.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "I_HOT",
+		        "file": "images/weather_22.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "ICON_PHONE_ERROR",
+		        "file": "images/weather_23.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "ICON_NOT_AVAILABLE",
+		        "file": "images/weather_24.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "SUNRISE",
+		        "file": "images/sunrise.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "SUNSET",
+		        "file": "images/sunset.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "WINDSPEED",
+		        "file": "images/windspeed.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "HUMIDITY",
+		        "file": "images/humidity.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "HIGH",
+		        "file": "images/high.png"
+		      },
+		      {
+		        "type": "png",
+		        "name": "LOW",
+		        "file": "images/low.png"
+		      }
+        ]
+    },
+    "shortName": "MWeather",
+    "uuid": "4c948634-129a-40b5-80b6-50c01d4b0c6e",
+    "versionCode": 6,
+    "versionLabel": "1.2",
+    "watchapp": {
+        "watchface": true
+    }
 }
