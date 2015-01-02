@@ -110,7 +110,7 @@ void battery_timer_callback()
 
 void battery_layer_update(Layer *me, GContext *ctx) 
 {
-  int8_t spacer  = 7; // pixels
+  int8_t spacer  = 12; // pixels
   int8_t start_x = spacer * MAX_DOTS;
   
   graphics_context_set_fill_color(ctx, GColorWhite);
