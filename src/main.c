@@ -12,7 +12,7 @@
 #define DATE_FRAME      (GRect(1, 66, 144, 168-62))
 #define WEATHER_FRAME   (GRect(0, 98, 144, 70))
 #define DEBUG_FRAME     (GRect(0, 82, 144, 15))
-#define BATTERY_FRAME   (GRect(110, 0, 144, 8))
+#define BATTERY_FRAME   (GRect(5, 0, 144, 8))
 
 /* Keep a pointer to the current weather data as a global variable */
 static WeatherData *weather_data;
