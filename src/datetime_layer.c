@@ -17,7 +17,7 @@ void time_layer_create(GRect frame, Window *window)
 
   time_layer = text_layer_create(frame);
   text_layer_set_text_color(time_layer, GColorWhite);
-  text_layer_set_background_color(time_layer, GColorClear);
+  text_layer_set_background_color(time_layer, GColorBlack);
   text_layer_set_font(time_layer, font_time);
   text_layer_set_text_alignment(time_layer, GTextAlignmentCenter);
 
@@ -30,7 +30,7 @@ void date_layer_create(GRect frame, Window *window)
 
   date_layer = text_layer_create(frame);
   text_layer_set_text_color(date_layer, GColorWhite);
-  text_layer_set_background_color(date_layer, GColorClear);
+  text_layer_set_background_color(date_layer, GColorBlack);
   text_layer_set_font(date_layer, font_date);
   text_layer_set_text_alignment(date_layer, GTextAlignmentCenter);
 

@@ -24,11 +24,11 @@
         "tzoffset": 12
     },
     "capabilities": [
-        "configurable",
-        "location"
+        "location",
+        "configurable"
     ],
-    "companyName": "Jared Biehler",
-    "longName": "Weather My Way",
+    "companyName": "editor Zeduaz",
+    "longName": "WMW edited by Zeduaz",
     "projectType": "native",
     "resources": {
         "media": [
@@ -70,10 +70,10 @@
             }
         ]
     },
-    "shortName": "Weather My Way",
-    "uuid": "24dc18f4-19a2-4800-a7b0-abec28e4d163",
+    "shortName": "WMW Z-edit",
+    "uuid": "afaa4c29-c8e8-4e18-a1eb-a23227c547cc",
     "versionCode": 7,
-    "versionLabel": "1.2",
+    "versionLabel": "1.0",
     "watchapp": {
         "watchface": true
     }
