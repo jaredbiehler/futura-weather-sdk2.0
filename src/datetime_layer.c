@@ -4,7 +4,7 @@
 static TextLayer *time_layer;
 static TextLayer *date_layer;
 
-static char date_text[] = "XXX 00";
+static char date_text[] = "00 00";
 static char time_text[] = "00:00";
 
 /* Preload the fonts */
@@ -60,9 +60,7 @@ void time_layer_update()
   void date_layer_update(struct tm *tick_time)
 {
   // Update the date - Without a leading 0 on the day of the month
-  char day_text[4];
-  strftime(day_text, sizeof(day_text), "%a", tick_time);
-  snprintf(date_text, sizeof(date_text), "%s %i", day_text, tick_time->tm_mday);
+  strftime(date_text, sizeof(date_text), "%d %m", tick_time);
   text_layer_set_text(date_layer, date_text);
 }
 
