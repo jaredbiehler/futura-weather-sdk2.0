@@ -33,6 +33,12 @@
     "resources": {
         "media": [
             {
+                "file": "images/index.png",
+                "menuIcon": true,
+                "name": "screenshot",
+                "type": "png"
+            },
+            {
                 "characterRegex": "[0-9\u00b0 -]",
                 "file": "fonts/futura.ttf",
                 "name": "FUTURA_30",
