@@ -57,7 +57,7 @@ void time_layer_update()
   text_layer_set_text(time_layer, time_text);
 }
 
-void date_layer_update(struct tm *tick_time)
+  void date_layer_update(struct tm *tick_time)
 {
   // Update the date - Without a leading 0 on the day of the month
   char day_text[4];
