@@ -20,8 +20,8 @@ static AppTimer *weather_animation_timer;
 static bool animation_timer_enabled = true;
 static int  animation_step = 0;
 
-static char time_h1[] = "00XX";
-static char time_h2[] = "00XX";
+static char time_h1[] = "00:00";
+static char time_h2[] = "00:00";
 
 static void weather_animate_update(Layer *me, GContext *ctx) 
 {
@@ -291,8 +291,8 @@ void weather_layer_update(WeatherData *weather_data)
 
       time_t h1t = weather_data->h1_time - weather_data->tzoffset;
       time_t h2t = weather_data->h2_time - weather_data->tzoffset;
-      strftime(time_h1, sizeof(time_h1), "%I%p", localtime(&h1t));
-      strftime(time_h2, sizeof(time_h2), "%I%p", localtime(&h2t));
+      strftime(time_h1, sizeof(time_h1), "%H:%M", localtime(&h1t));
+      strftime(time_h2, sizeof(time_h2), "%H:%M", localtime(&h2t));
 
       if (time_h1[0] == '0') {
         memmove(time_h1, &time_h1[1], sizeof(time_h1) - 1);
