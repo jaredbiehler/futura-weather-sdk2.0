@@ -8,7 +8,7 @@
 #include "datetime_layer.h"
 #include "config.h"
 
-#define TIME_FRAME      (GRect(0, 3, 144, 168-6))
+#define TIME_FRAME      (GRect(0, 6, 144, 168-6))
 #define DATE_FRAME      (GRect(1, 66, 144, 168-62))
 #define WEATHER_FRAME   (GRect(0, 98, 144, 70))
 #define DEBUG_FRAME     (GRect(0, 82, 144, 15))
