@@ -33,8 +33,7 @@
     "resources": {
         "media": [
             {
-                "file": "images/index.png",
-                "menuIcon": true,
+                "file": "images/v1.2.png",
                 "name": "screenshot",
                 "type": "png"
             },
