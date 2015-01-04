@@ -33,6 +33,11 @@
     "resources": {
         "media": [
             {
+                "file": "images/v1.1-2.png",
+                "name": "screenshot2",
+                "type": "png"
+            },
+            {
                 "file": "images/v1.1.png",
                 "name": "screenshot",
                 "type": "png"
