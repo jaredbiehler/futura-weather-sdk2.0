@@ -25,6 +25,15 @@ const  int  MAX_JS_READY_WAIT = 5000; // 5s
 static bool initial_request = true;
 static AppTimer *initial_jsready_timer;
 
+static void bt_handler(bool connected) {
+  //Vibrate once for connection established, twice for connection lost.  
+  if (connected) {
+    vibes_short_pulse();
+  } else {
+    vibes_double_pulse();
+  }
+}
+
 static void handle_tick(struct tm *tick_time, TimeUnits units_changed)
 {
   if (units_changed & MINUTE_UNIT) {
@@ -110,6 +119,9 @@ static void init(void)
 
   // And then every minute
   tick_timer_service_subscribe(MINUTE_UNIT, handle_tick);
+    
+  // Subscribe to Bluetooth updates
+  bluetooth_connection_service_subscribe(bt_handler);
 }
 
 static void deinit(void) 
@@ -117,6 +129,8 @@ static void deinit(void)
   APP_LOG(APP_LOG_LEVEL_DEBUG, "deinit started");
 
   tick_timer_service_unsubscribe();
+    
+  bluetooth_connection_service_unsubscribe();
 
   window_destroy(window);
 
