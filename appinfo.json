@@ -28,7 +28,7 @@
         "configurable"
     ],
     "companyName": "editor Zeduaz",
-    "longName": "WMW edited by Zeduaz",
+    "longName": "Weather My Way edited by Zeduaz",
     "projectType": "native",
     "resources": {
         "media": [
@@ -86,7 +86,7 @@
         ]
     },
     "sdkVersion": "2",
-    "shortName": "WMW Z-edit",
+    "shortName": "Weather My Way edited by Zeduaz",
     "uuid": "afaa4c29-c8e8-4e18-a1eb-a23227c547cc",
     "versionCode": 1,
     "versionLabel": "1.3",
