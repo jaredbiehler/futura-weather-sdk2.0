@@ -33,6 +33,11 @@
     "resources": {
         "media": [
             {
+                "file": "images/v1.3.png",
+                "name": "screenshot3",
+                "type": "png"
+            },
+            {
                 "file": "images/45x45.png",
                 "name": "ICON_45X45",
                 "type": "png"
@@ -84,7 +89,7 @@
     "shortName": "WMW Z-edit",
     "uuid": "afaa4c29-c8e8-4e18-a1eb-a23227c547cc",
     "versionCode": 1,
-    "versionLabel": "1.2",
+    "versionLabel": "1.3",
     "watchapp": {
         "watchface": true
     }
