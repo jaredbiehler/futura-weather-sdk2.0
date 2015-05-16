@@ -28,7 +28,7 @@ static void weather_animate_update(Layer *me, GContext *ctx)
   int dots = 3; 
   int spacer = 15;
   
-  graphics_context_set_fill_color(ctx, GColorBlack);
+  graphics_context_set_fill_color(ctx, GColorClear);
 
   for (int i=1; i<=dots; i++) {
     if (i == animation_step) {
@@ -136,24 +136,27 @@ void weather_layer_create(GRect frame, Window *window)
 
   // Add background layer
   wld->temp_layer_background = text_layer_create(GRect(0, 0, 144, 80));
-  text_layer_set_background_color(wld->temp_layer_background, GColorWhite);
+  text_layer_set_background_color(wld->temp_layer_background, GColorBlack);
   layer_add_child(weather_layer, text_layer_get_layer(wld->temp_layer_background));
 
   // Primary temperature layer
   wld->primary_temp_layer = text_layer_create(GRect(2, 38, 70, 35));
-  text_layer_set_background_color(wld->primary_temp_layer, GColorClear);
+  text_layer_set_background_color(wld->primary_temp_layer, GColorBlack);
+  text_layer_set_text_color(wld->primary_temp_layer, GColorWhite);
   text_layer_set_text_alignment(wld->primary_temp_layer, GTextAlignmentCenter);
   text_layer_set_font(wld->primary_temp_layer, large_font);
   layer_add_child(weather_layer, text_layer_get_layer(wld->primary_temp_layer));
 
   
   wld->h1_time_layer = text_layer_create(GRect(68, 5, 30, 20));
-  text_layer_set_text_color(wld->h1_time_layer, GColorBlack);
+  text_layer_set_text_color(wld->h1_time_layer, GColorWhite);
+  text_layer_set_background_color(wld->h1_time_layer, GColorBlack);
   text_layer_set_text_alignment(wld->h1_time_layer, GTextAlignmentCenter);
   layer_add_child(weather_layer, text_layer_get_layer(wld->h1_time_layer));
 
   wld->h1_temp_layer = text_layer_create(GRect(67, 47, 38, 20));
-  text_layer_set_text_color(wld->h1_temp_layer, GColorBlack);
+  text_layer_set_text_color(wld->h1_temp_layer, GColorWhite);
+  text_layer_set_background_color(wld->h1_temp_layer, GColorBlack);
   text_layer_set_text_alignment(wld->h1_temp_layer, GTextAlignmentCenter);
   text_layer_set_font(wld->h1_temp_layer, small_font);
   layer_add_child(weather_layer, text_layer_get_layer(wld->h1_temp_layer));
@@ -164,12 +167,14 @@ void weather_layer_create(GRect frame, Window *window)
 
   
   wld->h2_time_layer = text_layer_create(GRect(108, 5, 30, 20));
-  text_layer_set_text_color(wld->h1_time_layer, GColorBlack);
+  text_layer_set_text_color(wld->h2_time_layer, GColorWhite);
+  text_layer_set_background_color(wld->h2_time_layer, GColorBlack);
   text_layer_set_text_alignment(wld->h2_time_layer, GTextAlignmentCenter);
   layer_add_child(weather_layer, text_layer_get_layer(wld->h2_time_layer));
 
   wld->h2_temp_layer = text_layer_create(GRect(106, 47, 38, 20));
-  text_layer_set_text_color(wld->h2_temp_layer, GColorBlack);
+  text_layer_set_text_color(wld->h2_temp_layer, GColorWhite);
+  text_layer_set_background_color(wld->h2_temp_layer, GColorBlack);
   text_layer_set_text_alignment(wld->h2_temp_layer, GTextAlignmentCenter);
   text_layer_set_font(wld->h2_temp_layer, small_font);
   layer_add_child(weather_layer, text_layer_get_layer(wld->h2_temp_layer));

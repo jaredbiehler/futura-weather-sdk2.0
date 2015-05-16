@@ -33,6 +33,16 @@
     "resources": {
         "media": [
             {
+                "file": "images/45x45.png",
+                "name": "ICON_45X45",
+                "type": "png"
+            },
+            {
+                "file": "images/30x30.png",
+                "name": "ICON_30X30",
+                "type": "png"
+            },
+            {
                 "file": "images/v1.2.png",
                 "name": "screenshot2",
                 "type": "png"
@@ -67,22 +77,13 @@
                 "file": "fonts/futura_condensed_bold-webfont.ttf",
                 "name": "FUTURA_CONDENSED_53",
                 "type": "font"
-            },
-            {
-                "file": "images/30x30.png",
-                "name": "ICON_30X30",
-                "type": "png"
-            },
-            {
-                "file": "images/45x45.png",
-                "name": "ICON_45X45",
-                "type": "png"
             }
         ]
     },
+    "sdkVersion": "2",
     "shortName": "WMW Z-edit",
     "uuid": "afaa4c29-c8e8-4e18-a1eb-a23227c547cc",
-    "versionCode": 7,
+    "versionCode": 1,
     "versionLabel": "1.2",
     "watchapp": {
         "watchface": true
