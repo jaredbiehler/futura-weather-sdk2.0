@@ -8,10 +8,10 @@
 #include "datetime_layer.h"
 #include "config.h"
 
-#define TIME_FRAME      (GRect(0, 6, 144, 168-6))
-#define DATE_FRAME      (GRect(1, 64, 144, 168-62))
+#define TIME_FRAME      (GRect(0, 0, 144, 168-6))
+#define DATE_FRAME      (GRect(1, 58, 144, 168-62))
 #define WEATHER_FRAME   (GRect(0, 98, 144, 70))
-#define DEBUG_FRAME     (GRect(0, 81, 144, 15))
+#define DEBUG_FRAME     (GRect(0, 80, 144, 15))
 #define BATTERY_FRAME   (GRect(5, 0, 144, 8))
 
 /* Keep a pointer to the current weather data as a global variable */
