@@ -8,11 +8,11 @@
 #include "datetime_layer.h"
 #include "config.h"
 
-#define TIME_FRAME      (GRect(0, 3, 144, 168-6))
-#define DATE_FRAME      (GRect(1, 66, 144, 168-62))
+#define TIME_FRAME      (GRect(0, 0, 144, 168-6))
+#define DATE_FRAME      (GRect(1, 58, 144, 168-62))
 #define WEATHER_FRAME   (GRect(0, 98, 144, 70))
-#define DEBUG_FRAME     (GRect(0, 82, 144, 15))
-#define BATTERY_FRAME   (GRect(110, 0, 144, 8))
+#define DEBUG_FRAME     (GRect(0, 80, 144, 15))
+#define BATTERY_FRAME   (GRect(5, 0, 144, 8))
 
 /* Keep a pointer to the current weather data as a global variable */
 static WeatherData *weather_data;
@@ -56,9 +56,9 @@ static void handle_tick(struct tm *tick_time, TimeUnits units_changed)
   weather_layer_update(weather_data);
   */
 
-  // Refresh the weather info every 30 mins, targeting 18 mins after the hour (Yahoo updates around then)
+  // Refresh the weather info every 20 mins, targeting 18 mins after the hour (Yahoo updates around then)
   if ((units_changed & MINUTE_UNIT) && 
-      (tick_time->tm_min % 30 == 18) &&
+      (tick_time->tm_min % 20 == 18) &&
       !initial_request) {
     request_weather(weather_data);
   }

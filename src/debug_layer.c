@@ -15,7 +15,7 @@ void debug_layer_create(GRect frame, Window *window)
   text_layer_set_text_color(debug_layer, GColorWhite);
   text_layer_set_background_color(debug_layer, GColorClear);
   //text_layer_set_font(debug_layer, fonts_get_system_font(FONT_KEY_GOTHIC_14));
-  text_layer_set_text_alignment(debug_layer, GTextAlignmentRight);
+  text_layer_set_text_alignment(debug_layer, GTextAlignmentCenter);
 
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(debug_layer));
 }

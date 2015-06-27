@@ -2,14 +2,14 @@
 #include "battery_layer.h"
 
 const uint32_t BATTERY_TIMEOUT = 2000; // 2 second animation 
-const uint8_t  MAX_DOTS = 4;
+const uint8_t  MAX_DOTS = 10;
 
 static Layer *battery_layer;
 
 static AppTimer *battery_animation_timer;
 static bool is_animating = false;
 static bool is_enabled   = false;
-static int8_t dots = 4; 
+static int8_t dots = 10; 
 
 static void handle_battery(BatteryChargeState charge_state) 
 {
@@ -30,11 +30,23 @@ static void handle_battery(BatteryChargeState charge_state)
     }
     
     uint8_t charge = charge_state.charge_percent;
-    if (charge >= 90) {
+    if (charge >= 100) {
       dots = MAX_DOTS;
-    } else if (charge >= 65 && charge < 90) {
+    } else if (charge >= 90 && charge < 100) {
+      dots = 9;
+    } else if (charge >= 80 && charge < 90) {
+      dots = 8;
+    } else if (charge >= 70 && charge < 80) {
+      dots = 7;
+    } else if (charge >= 60 && charge < 70) {
+      dots = 6;
+    } else if (charge >= 50 && charge < 60) {
+      dots = 5;
+    } else if (charge >= 40 && charge < 50) {
+      dots = 4;
+    } else if (charge >= 30 && charge < 40) {
       dots = 3;
-    } else if (charge >= 35 && charge < 65) {
+    } else if (charge >= 20 && charge < 30) {
       dots = 2;
     } else {
       dots = 1;
@@ -98,7 +110,7 @@ void battery_timer_callback()
 
 void battery_layer_update(Layer *me, GContext *ctx) 
 {
-  int8_t spacer  = 7; // pixels
+  int8_t spacer  = 12; // pixels
   int8_t start_x = spacer * MAX_DOTS;
   
   graphics_context_set_fill_color(ctx, GColorWhite);
