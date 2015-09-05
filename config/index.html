@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.css" />
     <style>
         #apikey { display: none;}
+	.foo {   
+	    float: left;
+	    width: 20px;
+	    height: 20px;
+	    margin: 5px 5px 5px 5px;
+	    border-width: 1px;
+	    border-style: solid;
+	    border-color: rgba(0,0,0,.2);
+	}
     </style>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.js"></script>
@@ -47,22 +56,66 @@
                 <input type="text" name="text-apikey"  id="text-apikey" autocapitalize="off" autocorrect="off" autocomplete="off" value="">
             </div>
         </div>
+	
+        <div data-role="fieldcontain" id="1stF">
+            <label for="h1_offset">1st Hourly forecast </label>
+            <select name="h1_offset" id="h1_offset" data-role="selector" data-mini="true">
+                <option value="0">1 hour</option>
+                <option value="1">2 hours</option>
+                <option value="2">3 hours</option>
+                <option value="3">4 hours</option>
+                <option value="4">5 hours</option>
+                <option value="5">6 hours</option>
+                <option value="6">7 hours</option>
+                <option value="7">8 hours</option>
+                <option value="8">9 hours</option>
+                <option value="9">10 hours</option>
+                <option value="10">11 hours</option>
+                <option value="11">12 hours</option>
+            </select>
+        </div>
+
+        <div data-role="fieldcontain" id="2ndF">
+            <label for="h2_offset">2nd Hourly forecast</label>
+            <select name="h2_offset" id="h2_offset" data-role="selector" data-mini="true">
+                <option value="0">1 hour</option>
+                <option value="1">2 hours</option>
+                <option value="2">3 hours</option>
+                <option value="3">4 hours</option>
+                <option value="4">5 hours</option>
+                <option value="5">6 hours</option>
+                <option value="6">7 hours</option>
+                <option value="7">8 hours</option>
+                <option value="8">9 hours</option>
+                <option value="9">10 hours</option>
+                <option value="10">11 hours</option>
+                <option value="11">12 hours</option>
+            </select>
+        </div>
+
+        <div data-role="fieldcontain" id="forecastAuto" >
+            <label for="flipfeelslike">Default to sunrise forecast after sunset</label>
+            <select name="flipautoforecast" id="flipautoforecast" data-role="slider" data-mini="true">
+                <option value="off">Off</option>
+                <option value="on">On</option>
+            </select>
+        </div>
 
         <div data-role="fieldcontain">
             <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
                 <legend>Temperature Scale:</legend>
                 <input type="radio" name="weather-scale" id="radioF" value="F" class="custom" />
-                <label for="radioF">°Fahrenheit</label>
+                <label for="radioF">Imperial - °F</label>
 
                 <input type="radio" name="weather-scale" id="radioC" value="C" class="custom" />
-                <label for="radioC">°Celsius</label>
+                <label for="radioC">Metric - °C</label>
 
             </fieldset>
         </div>
 
         <div data-role="fieldcontain" >
-            <label for="flipbattery">Display Battery:</label>
-            <select name="flipbattery" id="flipbattery" data-role="slider" data-mini="true">
+            <label for="flipfeelslike">Use Feels Like for Temps:</label>
+            <select name="flipfeelslike" id="flipfeelslike" data-role="slider" data-mini="true">
                 <option value="off">Off</option>
                 <option value="on">On</option>
             </select>
@@ -85,12 +138,34 @@
     </div>
 </div>
 <script>
+
+function getQueryParam(variable, defaultValue) {
+  // Find all URL parameters
+  var query = location.search.substring(1);
+  var vars = query.split('&');
+  for (var i = 0; i < vars.length; i++) {
+    var pair = vars[i].split('=');
+
+    // If the query variable parameter is found, decode it to use and return it for use
+    if (pair[0] === variable) {
+      return decodeURIComponent(pair[1]);
+    }
+  }
+  return defaultValue || false;
+}
+
+
+
     function saveOptions() {
         return {
             'service': $("#radioyahoo").is(':checked') ? 'yahoo' : 'open',
             'scale':   $("#radioF").is(':checked')     ? 'F' : 'C',
-            'battery': $("select[name=flipbattery]").prop('selectedIndex') ? 'on' : 'off',
+            'feelslike': $("select[name=flipfeelslike]").prop('selectedIndex') ? 'on' : 'off',
+            'battery': 'on',
             'debug':   $("select[name=flipdebug]").prop('selectedIndex')   ? 'true' : 'false',
+            'h1_offset':   $("select[name=h1_offset]").prop('selectedIndex')  ,
+            'h2_offset':   $("select[name=h2_offset]").prop('selectedIndex')  ,
+            'autoforecast': $("select[name=flipautoforecast]").prop('selectedIndex') ? 'on' : 'off',
             'wuApiKey':$("select[name=fliphourly]").prop('selectedIndex')  ? $("#text-apikey").val() : null
         };
     }
@@ -110,11 +185,22 @@
             var val = $(this).val();
             if (val === 'on') {
                 $("#apikey").show();
-                if (!initialLoad) {
+		$("#h1_offset").show();
+		$("#h2_offset").show();
+		$("#1stF").show();
+		$("#2ndF").show();
+		$("#forecastAuto").show();
+	        if (!initialLoad) {
                     $("#popupCloseRight").popup("open");
                 }
             } else {
                 $("#apikey").hide();
+		$("#1stF").hide();
+	        $("#2ndF").hide();
+		$("#h1_offset").hide();
+		$("#forecastAuto").hide();
+		$("#h2_offset").hide();
+		
             }
         });
 
@@ -143,7 +229,32 @@
         }
         flipHourly.change();
 
-        var flipBattery = $("select[name=flipbattery]");
+	var selecth1 = $("select[name=h1_offset]");
+        var h1 = getURLParameter('h1');
+	selecth1.val(h1);
+	
+        var selecth2 = $("select[name=h2_offset]");
+        var h2 = getURLParameter('h2');
+        selecth2.val(h2);
+	
+        
+
+        var flipFeelslike = $("select[name=flipfeelslike]");
+        var feelslike = getURLParameter('f');
+        if (feelslike === 'off') {
+            flipFeelslike.prop('selectedIndex', 0);
+        } else {
+            flipFeelslike.prop('selectedIndex', 1);
+        }
+        var flipAutoForecast = $("select[name=flipautoforecast]");
+	var af = getURLParameter('af');
+	if (af === 'off') {
+            flipAutoForecast.prop('selectedIndex', 0);
+        } else {
+            flipAutoForecast.prop('selectedIndex', 1);
+        }
+        
+	var flipBattery = $("select[name=flipbattery]");
         var battery = getURLParameter('b');
         if (battery === 'off') {
             flipBattery.prop('selectedIndex', 0);
@@ -159,33 +270,40 @@
             flipDebug.prop('selectedIndex', 0);
         }
 
-        $("select").slider("refresh");
-
+        $("select[name=h1_offset]").selectmenu("refresh",true);
+        $("select[name=h2_offset]").selectmenu("refresh",true);
+        $("select[name=flipfeelslike]").slider("refresh");
+	$("select[name=flipdebug]").slider("refresh");
+	$("select[name=flipbattery]").slider("refresh");
+	$("select[name=flipautoforecast]").slider("refresh");
+	
         $("#b-cancel").click(function() {
             console.log("Cancel");
-            document.location = "pebblejs://close";
+            // document.location = "pebblejs://close";
+            var return_to = getQueryParam('return_to', 'pebblejs://close#');
+	    document.location = return_to;
         });
 
         $("#b-submit").click(function() {
             console.log("Submit");
 
-            var location = "pebblejs://close#" + (JSON.stringify(saveOptions()));
-            console.log("Warping to: " + location);
-            console.log(location);
-            document.location = location;
-        });
+            	var return_to = getQueryParam('return_to', 'pebblejs://close#');
+            	console.log("Warping to: " + location);
+            	console.log(location);
+ 		document.location = return_to + encodeURIComponent(JSON.stringify(saveOptions()));
+	});
 
         initialLoad = false;
     });
 </script>
 <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-    ga('create', 'UA-50506231-1', 'jaredbiehler.github.io');
-    ga('send', 'pageview');
+  ga('create', 'UA-54218219-1', 'auto');
+  ga('send', 'pageview');
 
 </script>
 </body>
