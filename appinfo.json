@@ -3,12 +3,17 @@
   "shortName": "Weather My Way",
   "longName": "Weather My Way",
   "companyName": "Jared Biehler",
-  "versionCode": 7,
-  "versionLabel": "1.2",
+  "versionCode": 8,
+  "versionLabel": "1.3",
   "capabilities": [ "configurable", "location" ],
   "watchapp": {
     "watchface": true
   },
+  "sdkVersion": "3",
+  "targetPlatforms": [
+    "aplite",
+    "basalt"
+  ],
   "appKeys": {
     "temperature": 0,
     "condition": 1,

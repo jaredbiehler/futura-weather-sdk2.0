@@ -18,7 +18,7 @@ static void appmsg_in_received(DictionaryIterator *received, void *context) {
   Tuple *error_tuple       = dict_find(received, KEY_ERROR);
   Tuple *js_ready_tuple    = dict_find(received, KEY_JS_READY);
 
-  // Current Weather (Via Yahoo, Open Weather Map)
+  // Current Weather (Via Weather Underground, Open Weather Map)
   Tuple *temperature_tuple = dict_find(received, KEY_TEMPERATURE);
   Tuple *condition_tuple   = dict_find(received, KEY_CONDITION);
   Tuple *sunrise_tuple     = dict_find(received, KEY_SUNRISE);
@@ -68,7 +68,7 @@ static void appmsg_in_received(DictionaryIterator *received, void *context) {
   }
   // Configuration Update
   else if (service_tuple) {
-    char* service = strcmp(service_tuple->value->cstring, SERVICE_OPEN_WEATHER) == 0 ? SERVICE_OPEN_WEATHER : SERVICE_YAHOO_WEATHER;
+    char* service = strcmp(service_tuple->value->cstring, SERVICE_OPEN_WEATHER) == 0 ? SERVICE_OPEN_WEATHER : SERVICE_WUNDER_WEATHER;
     char* scale   = strcmp(scale_tuple->value->cstring, SCALE_CELSIUS) == 0 ? SCALE_CELSIUS : SCALE_FAHRENHEIT;
     strncpy(weather->service, service, 6);
     strncpy(weather->scale, scale, 2);
