@@ -19,8 +19,8 @@
         <div data-role="fieldcontain">
             <fieldset data-role="controlgroup" data-mini="true">
                 <legend>Weather Provider:</legend>
-                <input type="radio" name="weather-service" id="radioyahoo" value="yahoo" class="custom" />
-                <label for="radioyahoo">YAHOO! Weather</label>
+                <input type="radio" name="weather-service" id="radiowunder" value="wunder" class="custom" />
+                <label for="radiowunder">Weather Underground</label>
 
                 <input type="radio" name="weather-service" id="radioopen" value="open" class="custom" />
                 <label for="radioopen">Open Weather Map</label>
@@ -87,7 +87,7 @@
 <script>
     function saveOptions() {
         return {
-            'service': $("#radioyahoo").is(':checked') ? 'yahoo' : 'open',
+            'service': $("#radiowunder").is(':checked') ? 'wunder' : 'open',
             'scale':   $("#radioF").is(':checked')     ? 'F' : 'C',
             'battery': $("select[name=flipbattery]").prop('selectedIndex') ? 'on' : 'off',
             'debug':   $("select[name=flipdebug]").prop('selectedIndex')   ? 'true' : 'false',
@@ -122,7 +122,7 @@
         if (service === 'open') {
             $("#radioopen").attr("checked", "checked");
         } else {
-            $("#radioyahoo").attr("checked", "checked");
+            $("#radiowunder").attr("checked", "checked");
         }
         $("input[name='weather-service']").checkboxradio("refresh");
 
@@ -180,7 +180,7 @@
 </script>
 <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
